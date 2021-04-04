@@ -1,0 +1,22 @@
+stages:
+    load_data: 
+        cmd: python src/load_and_split_data.py
+        deps:
+        - data_given/HR_Analytics.csv
+        - src/load_and_split_data.py
+        outs:
+        - data/raw/HR_Analytics.csv
+        - data/processed/train_HR_Analytics.csv
+        - data/processed/test_HR_Analytics.csv
+        
+    train_and_evaluate:
+        cmd: python src/train_and_evaluate.py
+        deps:
+        - data/processed/test_HR_Analytics.csv
+        - data/processed/train_HR_Analytics.csv
+        - src/train_and_evaluate.py
+        metrics:
+        - report/scores.json:
+            cache: false
+        outs:
+        - saved_models/model.joblib

@@ -1,0 +1,31 @@
+base:
+  project: HR_Analytics-project
+  random_state: 42
+  target_col: is_promoted
+  
+schema: schema/schema.json
+
+data_source:
+  s3_source: data_given/HR_Analytics.csv
+
+load_data:
+  raw_dataset_csv: data/raw/HR_Analytics.csv
+  
+test_data:
+    test_data_csv: tests/test_data.csv
+    test_results: tests/test_result.csv
+    
+pytest_data: 
+    incorrect_range: test_data.csv
+    test_results: test_result.csv
+
+split_data:
+  train_path: data/processed/train_HR_Analytics.csv
+  test_path: data/processed/test_HR_Analytics.csv
+  test_size: 0.2
+
+model_dir: saved_models
+
+reports:
+    scores: report/scores.json
+    params: report/params.json

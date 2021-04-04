@@ -1,0 +1,38 @@
+load_data:
+  cmd: python src/load_and_split_data.py
+  deps:
+  - path: data_given/HR_Analytics.csv
+    md5: 5f15b26a39c02cf35a5f8bd2065e9851
+    size: 3759647
+  - path: src/load_and_split_data.py
+    md5: 919413039c44afee6f332d40df123ae1
+    size: 1519
+  outs:
+  - path: data/processed/test_HR_Analytics.csv
+    md5: 592044857de1afbc87c782ef5c0f99b1
+    size: 772255
+  - path: data/processed/train_HR_Analytics.csv
+    md5: bc3b9da36e3120a06c83f61622e5ff44
+    size: 3088944
+  - path: data/raw/HR_Analytics.csv
+    md5: 4acad05c6a13e82fbabe1d0ecd76bcd8
+    size: 3861015
+train_and_evaluate:
+  cmd: python src/train_and_evaluate.py
+  deps:
+  - path: data/processed/test_HR_Analytics.csv
+    md5: 592044857de1afbc87c782ef5c0f99b1
+    size: 772255
+  - path: data/processed/train_HR_Analytics.csv
+    md5: bc3b9da36e3120a06c83f61622e5ff44
+    size: 3088944
+  - path: src/train_and_evaluate.py
+    md5: 4227b0e9940182f8dd865cc0ee090c58
+    size: 5397
+  outs:
+  - path: report/scores.json
+    md5: ab270bfe95d589caa83c04f9528d9923
+    size: 78
+  - path: saved_models/model.joblib
+    md5: 529dd3e21d24e439ece5ed1fc2c92767
+    size: 1371241
