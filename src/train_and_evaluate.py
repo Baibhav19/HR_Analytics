@@ -39,7 +39,9 @@ class train_and_evaluate:
         train_data_path = config["split_data"]["train_path"]
         random_state = config["base"]["random_state"]
         model_dir = config["model_dir"]
-
+        classification_threshold = config["classification_threshold"]
+        n_estimators = config["estimators"]["RandomForestClassifier"]["n_estimators"]
+        max_depth = config["estimators"]["RandomForestClassifier"]["max_depth"]
         target = [config["base"]["target_col"]]
         print("target")
         train = pd.read_csv(train_data_path, sep=",")
@@ -87,16 +89,17 @@ class train_and_evaluate:
                      ])
         
         X_train_smote = pip_sm.fit_transform(X_train)
-        smote = SMOTE()
+        #print(X_train_smote)
+        smote = SMOTE(random_state=random_state, k_neighbors=3)
         X_smote, y_smote = smote.fit_resample(X_train_smote, y_train)
         X_test_smote = pip_sm.transform(X_test)
-        
-        rf = RandomForestClassifier(random_state=random_state, n_estimators=100, max_depth=7)
+        #print(X_test_smote)
+        rf = RandomForestClassifier(random_state=random_state, n_estimators=n_estimators, max_depth=max_depth)
         
         rf.fit(X_smote, y_smote.values)
         
         pred_prob = rf.predict_proba(X_test_smote)
-        predicted_qualities = (pred_prob[:,0] <= (35/100)).astype('int')
+        predicted_qualities = (pred_prob[:,0] <= (classification_threshold/100)).astype('int')
         
         (accuracy, f1_score) = self.eval_metrics(y_test.values, predicted_qualities)
 

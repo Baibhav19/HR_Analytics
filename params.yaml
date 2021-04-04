@@ -11,6 +11,13 @@ data_source:
 load_data:
   raw_dataset_csv: data/raw/HR_Analytics.csv
   
+classification_threshold: 34
+
+estimators:
+  RandomForestClassifier:
+    n_estimators: 100
+    max_depth: 7
+
 test_data:
     test_data_csv: tests/test_data.csv
     test_results: tests/test_result.csv
