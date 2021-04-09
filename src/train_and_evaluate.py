@@ -123,8 +123,9 @@ class train_and_evaluate:
 
 
         os.makedirs(model_dir, exist_ok=True)
+        pipeline_path = os.path.join(model_dir, "pipeline_hr.joblib")
         model_path = os.path.join(model_dir, "model.joblib")
-
+        joblib.dump(pip_sm, pipeline_path)
         joblib.dump(rf, model_path)
         
     def __init__(self):
